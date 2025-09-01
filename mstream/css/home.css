@@ -284,3 +284,14 @@
     gap: 8px;
   }
 }
+
+.logo-container {
+  display: flex;
+  align-items: center; /* Vertically aligns the logo and text */
+}
+
+.logo-container h1 {
+  margin-left: 12px; /* Adds some space between the logo and the text */
+  font-size: 1.5rem;   /* Adjust the size as needed */
+  color: white;        /* Or whatever color fits your design */
+}
