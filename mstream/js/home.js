@@ -78,20 +78,22 @@ function displayList(items, containerId) {
   });
 }
 
+// In js/home.js
+
 function showDetails(item) {
   currentItem = item;
   document.getElementById('modal-title').textContent = item.title || item.name;
   document.getElementById('modal-description').textContent = item.overview;
   document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
-
-  // Find the watch button and set its link
+  
   const watchButton = document.getElementById('watch-button');
   const type = item.media_type === "movie" || item.release_date ? "movie" : "tv";
-  // We will use one provider for the watch link, for example vidsrc.cc
-  const watchURL = `https://vidsrc.cc/v2/embed/${type}/${item.id}`;
-  watchButton.href = watchURL;
-
+  
+  // **THIS IS THE IMPORTANT CHANGE**
+  // Update the link to point to your new watch page
+  watchButton.href = `watch.html?type=${type}&id=${item.id}`;
+  
   document.getElementById('modal').style.display = 'flex';
 }
 

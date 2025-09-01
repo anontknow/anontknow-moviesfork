@@ -1,0 +1,85 @@
+/* css/watch.css */
+
+/* Reuse color variables for consistency */
+:root {
+  --primary-color: #e50914;
+  --background-color: #141414;
+  --container-bg-color: #222222;
+  --text-color: #ffffff;
+  --text-color-secondary: #aaaaaa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif; /* Make sure you've added Poppins in your home.html */
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.watch-header {
+  padding: 1rem 2rem;
+}
+
+.home-link {
+  color: var(--text-color-secondary);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.home-link:hover {
+  color: var(--primary-color);
+}
+
+.player-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem 2rem;
+}
+
+#video-frame {
+  width: 100%;
+  border: none;
+  /* This creates a responsive 16:9 aspect ratio */
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  border-radius: 8px;
+}
+
+.server-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.server-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--container-bg-color);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.server-btn:hover {
+  background-color: #333;
+}
+
+/* Style for the currently active server button */
+.server-btn.active {
+  background-color: var(--primary-color);
+  font-weight: 600;
+}
