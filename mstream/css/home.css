@@ -300,3 +300,95 @@ body {
 .slider-arrow.right {
   right: 10px;
 }
+
+/* =================================== */
+/* 9. BANNER SLIDER STYLES           */
+/* =================================== */
+
+/* Modify the original .banner to act as a slider container */
+.banner-slider {
+  height: 80vh;
+  position: relative;
+  overflow: hidden; /* This is crucial for the sliding effect */
+}
+
+.banner-slides {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease-in-out; /* The slide animation */
+}
+
+.banner-slide {
+  flex-shrink: 0; /* Prevents slides from shrinking */
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center top;
+  position: relative; /* For the overlay and content */
+  display: flex;
+  align-items: center;
+  padding: 0 3rem;
+}
+
+/* Re-apply the gradient overlay to each individual slide */
+.banner-slide::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to right, rgba(20, 20, 20, 0.9) 10%, transparent 70%),
+              linear-gradient(to top, rgba(20, 20, 20, 0.8) 10%, transparent 50%);
+}
+
+/* Re-apply the title style for the title inside each slide */
+.banner-slide h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  max-width: 50%;
+  z-index: 1;
+  color: var(--text-color);
+}
+
+/* Banner Arrows */
+.banner-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(20, 20, 20, 0.5);
+  border: none;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 2rem;
+  transition: background-color 0.2s ease;
+}
+.banner-arrow:hover {
+  background-color: var(--primary-color);
+}
+.banner-arrow.left { left: 20px; }
+.banner-arrow.right { right: 20px; }
+
+/* Banner Dots */
+.banner-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+.banner-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.banner-dot.active {
+  background-color: var(--text-color);
+}

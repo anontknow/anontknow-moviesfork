@@ -6,6 +6,11 @@ const BASE_URL = '/api'; // This now routes to your Cloudflare Function
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 let currentItem;
 
+let currentItem;
+let bannerSlidesData = [];
+let currentBannerIndex = 0;
+let bannerInterval;
+
 // ===================================
 // DATA FETCHING FUNCTIONS
 // ===================================
