@@ -236,7 +236,7 @@ async function init() {
     const anime = await fetchTrendingAnime();
 
     if (movies && movies.length > 0) {
-      displayBanner(movies[Math.floor(Math.random() * movies.length)]);
+      setupBannerSlider(movies);
       displayList(movies, 'movies-list');
     }
     if (tvShows && tvShows.length > 0) {
