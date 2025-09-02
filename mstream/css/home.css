@@ -479,3 +479,30 @@ body {
   .results .movie-card { width: 45%; }
   .results .movie-card img { height: auto; aspect-ratio: 2/3; }
 }
+
+/* =================================== */
+/* 9. MODAL DETAILS UPDATE          */
+/* =================================== */
+
+/* Adjust the title size to make room for new info */
+.modal-text h2 {
+  font-size: 2.2rem; /* Was 2.5rem */
+}
+
+.modal-extra-info {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--text-color-secondary);
+}
+
+.modal-extra-info p {
+  display: flex;
+}
+
+.modal-extra-info strong {
+  color: var(--text-color);
+  font-weight: 600;
+  margin-right: 8px;
+  flex-shrink: 0; /* Prevents the label from wrapping */
+}

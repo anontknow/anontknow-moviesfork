@@ -5,7 +5,8 @@
 const BASE_URL = '/api'; // This now routes to your Cloudflare Function
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 let currentItem;
-
+let movieGenres = new Map();
+let tvGenres = new Map();
 let bannerSlidesData = [];
 let currentBannerIndex = 0;
 let bannerInterval;
@@ -13,6 +14,20 @@ let bannerInterval;
 // ===================================
 // DATA FETCHING FUNCTIONS
 // ===================================
+
+async function fetchGenres() {
+  try {
+    const movieRes = await fetch(`${BASE_URL}/genre/movie/list`);
+    const movieData = await movieRes.json();
+    movieData.genres.forEach(genre => movieGenres.set(genre.id, genre.name));
+
+    const tvRes = await fetch(`${BASE_URL}/genre/tv/list`);
+    const tvData = await tvRes.json();
+    tvData.genres.forEach(genre => tvGenres.set(genre.id, genre.name));
+  } catch (error) {
+    console.error("Failed to fetch genres:", error);
+  }
+}
 
 async function fetchTrending(type) {
   const res = await fetch(`${BASE_URL}/trending/${type}/week`);
@@ -121,20 +136,41 @@ function displayList(items, containerId) {
   });
 }
 
-function showDetails(item) {
+async function showDetails(item) {
   currentItem = item;
+  const type = item.media_type === "movie" || item.release_date ? "movie" : "tv";
+
+  // Populate basic info immediately
   document.getElementById('modal-title').textContent = item.title || item.name;
   document.getElementById('modal-description').textContent = item.overview;
   document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
-  
+
   const watchButton = document.getElementById('watch-button');
-  const type = item.media_type === "movie" || item.release_date ? "movie" : "tv";
-  
-  // **THIS IS THE IMPORTANT CHANGE**
-  // Update the link to point to your new watch page
   watchButton.href = `watch.html?type=${type}&id=${item.id}`;
-  
+
+  // Set loading text for dynamic content
+  const genresSpan = document.getElementById('modal-genres');
+  const castSpan = document.getElementById('modal-cast');
+  genresSpan.textContent = 'Loading...';
+  castSpan.textContent = 'Loading...';
+
+  // Look up and display genres
+  const genreMap = type === 'movie' ? movieGenres : tvGenres;
+  const genreNames = item.genre_ids.map(id => genreMap.get(id)).filter(Boolean); // filter(Boolean) removes any undefined genres
+  genresSpan.textContent = genreNames.join(', ') || 'N/A';
+
+  // Fetch credits to display cast
+  try {
+    const res = await fetch(`${BASE_URL}/${type}/${item.id}/credits`);
+    const creditsData = await res.json();
+    const castNames = creditsData.cast.slice(0, 4).map(actor => actor.name); // Get top 4 actors
+    castSpan.textContent = castNames.join(', ') || 'N/A';
+  } catch (error) {
+    console.error("Failed to fetch credits:", error);
+    castSpan.textContent = 'Could not load cast info.';
+  }
+
   document.getElementById('modal').style.display = 'flex';
 }
 
@@ -289,6 +325,7 @@ function resetBannerAutoplay() {
 // ===================================
 
 async function init() {
+  await fetchGenres(); // Fetch genres right at the start
   try {
     const movies = await fetchTrending('movie');
     const tvShows = await fetchTrending('tv');
