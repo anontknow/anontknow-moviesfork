@@ -2,8 +2,8 @@
 // CONFIGURATION
 // ===================================
 
-const BASE_URL = '/api'; // This now routes to your Cloudflare Function
-const IMG_URL = 'https://image.tmdb.org/t/p/original';
+const POSTER_URL = 'https://image.tmdb.org/t/p/w500'; // For movie cards
+const BACKDROP_URL = 'https://image.tmdb.org/t/p/w1280'; // For the main banner
 let currentItem;
 let movieGenres = new Map();
 let tvGenres = new Map();
@@ -36,16 +36,10 @@ async function fetchTrending(type) {
 }
 
 async function fetchTrendingAnime() {
-  let allResults = [];
-  for (let page = 1; page <= 3; page++) {
-    const res = await fetch(`${BASE_URL}/trending/tv/week?page=${page}`);
-    const data = await res.json();
-    const filtered = data.results.filter(item =>
-      item.original_language === 'ja' && item.genre_ids.includes(16)
-    );
-    allResults = allResults.concat(filtered);
-  }
-  return allResults;
+  // Directly discover TV shows with the Animation genre (ID 16) and 'anime' keyword (ID 210024)
+  const res = await fetch(`${BASE_URL}/discover/tv?with_genres=16&with_keywords=210024&sort_by=popularity.desc`);
+  const data = await res.json();
+  return data.results;
 }
 
 async function searchTMDB() {
@@ -77,7 +71,7 @@ async function searchTMDB() {
     const description = item.overview;
 
     movieCard.innerHTML = `
-      <img src="${IMG_URL}${item.poster_path}" alt="${title}">
+      <img src="${POSTER_URL}${item.poster_path}" alt="${title}" loading="lazy">
       <div class="card-content">
         <h3 class="card-title">${title}</h3>
         <div class="card-meta">
@@ -97,7 +91,7 @@ async function searchTMDB() {
 // ===================================
 
 function displayBanner(item) {
-  document.getElementById('banner').style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
+  document.getElementById('banner').style.backgroundImage = `url(${BACKDROP_URL}${item.backdrop_path})`;
   document.getElementById('banner-title').textContent = item.title || item.name;
 }
 
@@ -121,7 +115,7 @@ function displayList(items, containerId) {
 
     // Use innerHTML to build the card structure
     movieCard.innerHTML = `
-      <img src="${IMG_URL}${item.poster_path}" alt="${title}">
+      <img src="${POSTER_URL}${item.poster_path}" alt="${title}" loading="lazy">
       <div class="card-content">
         <h3 class="card-title">${title}</h3>
         <div class="card-meta">
@@ -143,7 +137,7 @@ async function showDetails(item) {
   // Populate basic info immediately
   document.getElementById('modal-title').textContent = item.title || item.name;
   document.getElementById('modal-description').textContent = item.overview;
-  document.getElementById('modal-image').src = `${IMG_URL}${item.poster_path}`;
+  document.getElementById('modal-image').src = `${POSTER_URL}${item.poster_path}`;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
 
   const watchButton = document.getElementById('watch-button');
@@ -231,7 +225,7 @@ function setupBannerSlider(movies) {
     // 1. Create the slide container
     const slide = document.createElement('div');
     slide.className = 'banner-slide';
-    slide.style.backgroundImage = `url(${IMG_URL}${movie.backdrop_path})`;
+    slide.style.backgroundImage = `url(${BACKDROP_URL}${movie.backdrop_path})`;
     
     // 2. Create the content container for text and buttons
     const content = document.createElement('div');
