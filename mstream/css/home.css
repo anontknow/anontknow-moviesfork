@@ -51,6 +51,8 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
+  text-decoration: none;
+  color: inherit;
 }
 .logo-container img { height: 40px; }
 .logo-container h1 {
