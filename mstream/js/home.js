@@ -1,7 +1,7 @@
 // ===================================
 // CONFIGURATION
 // ===================================
-
+const BASE_URL = '/api';
 const POSTER_URL = 'https://image.tmdb.org/t/p/w500'; // For movie cards
 const BACKDROP_URL = 'https://image.tmdb.org/t/p/w1280'; // For the main banner
 let currentItem;
