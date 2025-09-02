@@ -35,24 +35,44 @@ async function fetchTrendingAnime() {
 
 async function searchTMDB() {
   const query = document.getElementById('search-input').value;
+  const container = document.getElementById('search-results');
+
   if (!query.trim()) {
-    document.getElementById('search-results').innerHTML = '';
+    container.innerHTML = '';
     return;
   }
+
   const res = await fetch(`${BASE_URL}/search/multi?query=${encodeURIComponent(query)}`);
   const data = await res.json();
-  const container = document.getElementById('search-results');
-  container.innerHTML = '';
+  container.innerHTML = ''; // Clear previous results
+
   data.results.forEach(item => {
-    if (!item.poster_path) return;
-    const img = document.createElement('img');
-    img.src = `${IMG_URL}${item.poster_path}`;
-    img.alt = item.title || item.name;
-    img.onclick = () => {
+    if (item.media_type === 'person' || !item.poster_path) return;
+
+    const movieCard = document.createElement('div');
+    movieCard.className = 'movie-card';
+    movieCard.onclick = () => {
       closeSearchModal();
       showDetails(item);
     };
-    container.appendChild(img);
+
+    const title = item.title || item.name;
+    const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+    const year = item.release_date ? item.release_date.substring(0, 4) : (item.first_air_date ? item.first_air_date.substring(0, 4) : '');
+    const description = item.overview;
+
+    movieCard.innerHTML = `
+      <img src="${IMG_URL}${item.poster_path}" alt="${title}">
+      <div class="card-content">
+        <h3 class="card-title">${title}</h3>
+        <div class="card-meta">
+          <span class="rating">★ ${rating}</span>
+          <span class="year">${year}</span>
+        </div>
+        <p class="card-description">${description}</p>
+      </div>
+    `;
+    container.appendChild(movieCard);
   });
 }
 
@@ -70,15 +90,36 @@ function displayList(items, containerId) {
   const container = document.getElementById(containerId);
   container.innerHTML = '';
   items.forEach(item => {
-    const img = document.createElement('img');
-    img.src = `${IMG_URL}${item.poster_path}`;
-    img.alt = item.title || item.name;
-    img.onclick = () => showDetails(item);
-    container.appendChild(img);
+    // Skip items without a poster
+    if (!item.poster_path) return;
+
+    // Create the main card container
+    const movieCard = document.createElement('div');
+    movieCard.className = 'movie-card';
+    movieCard.onclick = () => showDetails(item);
+
+    // Get data with fallbacks
+    const title = item.title || item.name;
+    const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+    const year = item.release_date ? item.release_date.substring(0, 4) : (item.first_air_date ? item.first_air_date.substring(0, 4) : '');
+    const description = item.overview;
+
+    // Use innerHTML to build the card structure
+    movieCard.innerHTML = `
+      <img src="${IMG_URL}${item.poster_path}" alt="${title}">
+      <div class="card-content">
+        <h3 class="card-title">${title}</h3>
+        <div class="card-meta">
+          <span class="rating">★ ${rating}</span>
+          <span class="year">${year}</span>
+        </div>
+        <p class="card-description">${description}</p>
+      </div>
+    `;
+
+    container.appendChild(movieCard);
   });
 }
-
-// In js/home.js
 
 function showDetails(item) {
   currentItem = item;
@@ -137,24 +178,68 @@ function slide(listId, direction) {
 // ===================================
 
 function setupBannerSlider(movies) {
-  bannerSlidesData = movies.slice(0, 5); // Use the first 5 movies
+  bannerSlidesData = movies.slice(0, 5); // Use the first 5 movies for the banner
   const slidesContainer = document.getElementById('banner-slides');
   const dotsContainer = document.getElementById('banner-dots');
+
+  // **Error prevention**: Check if elements exist
+  if (!slidesContainer || !dotsContainer) {
+    console.error("Banner slider HTML elements not found!");
+    return;
+  }
 
   slidesContainer.innerHTML = '';
   dotsContainer.innerHTML = '';
 
   bannerSlidesData.forEach((movie, index) => {
-    // Create Slide
+    // 1. Create the slide container
     const slide = document.createElement('div');
     slide.className = 'banner-slide';
     slide.style.backgroundImage = `url(${IMG_URL}${movie.backdrop_path})`;
+    
+    // 2. Create the content container for text and buttons
+    const content = document.createElement('div');
+    content.className = 'banner-content';
+
+    // 3. Create Title
     const title = document.createElement('h1');
     title.textContent = movie.title || movie.name;
-    slide.appendChild(title);
+
+    // 4. Create Metadata (Year, Rating)
+    const meta = document.createElement('div');
+    meta.className = 'banner-meta';
+    const year = movie.release_date ? movie.release_date.substring(0, 4) : (movie.first_air_date ? movie.first_air_date.substring(0, 4) : 'N/A');
+    const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+    meta.innerHTML = `<span>${year}</span> &bull; <span class="rating">★ ${rating}</span>`;
+
+    // 5. Create Description
+    const desc = document.createElement('p');
+    desc.className = 'banner-description';
+    desc.textContent = movie.overview;
+
+    // 6. Create Buttons
+    const buttons = document.createElement('div');
+    buttons.className = 'banner-buttons';
+
+    const playBtn = document.createElement('a');
+    playBtn.className = 'btn btn-primary';
+    playBtn.href = `watch.html?type=movie&id=${movie.id}`; // Assumes banner content is always 'movie'
+    playBtn.target = '_blank';
+    playBtn.innerHTML = `<i class="fas fa-play"></i> Play Now`;
+
+    const infoBtn = document.createElement('button');
+    infoBtn.className = 'btn btn-secondary';
+    infoBtn.innerHTML = `<i class="fas fa-info-circle"></i> More Info`;
+    // When clicked, it calls the same function as clicking a poster
+    infoBtn.onclick = () => showDetails(movie);
+
+    // 7. Append everything together
+    buttons.append(playBtn, infoBtn);
+    content.append(title, meta, desc, buttons);
+    slide.appendChild(content);
     slidesContainer.appendChild(slide);
 
-    // Create Dot
+    // 8. Create Dot for navigation
     const dot = document.createElement('div');
     dot.className = 'banner-dot';
     dot.addEventListener('click', () => goToSlide(index));

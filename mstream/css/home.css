@@ -115,16 +115,6 @@ body {
   gap: 15px;
 }
 
-.list img {
-  height: 250px; /* Use height for consistency */
-  width: auto;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
-}
-.list img:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-
 /* =================================== */
 /* 5. MODALS (DETAILS & SEARCH)      */
 /* =================================== */
@@ -252,53 +242,50 @@ body {
 /* 8. SLIDER / CAROUSEL STYLES       */
 /* =================================== */
 
-.slider-container {
-  position: relative;
+.row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; /* This was on the h2, now it's here */
+}
+
+/* Remove margin from the h2 since it's on the header now */
+.row h2 {
+  margin-bottom: 0;
+}
+
+.slider-nav {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .list {
-  /* Change overflow to hidden and add smooth scrolling */
+  /* This logic is still needed for the slide function to work */
   overflow-x: hidden;
   scroll-behavior: smooth;
-  /* Add some extra padding to not cut off shadows */
-  padding-left: 5px;
-  padding-right: 5px;
+  /* Add padding to prevent cutting off poster shadows */
+  padding: 5px;
 }
 
 .slider-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(20, 20, 20, 0.7);
+  /* New styles for the smaller, top-right arrows */
+  background-color: rgba(255, 255, 255, 0.1);
   border: none;
-  color: var(--text-color);
-  width: 45px;
-  height: 45px;
+  color: var(--text-color-secondary);
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 10;
-  font-size: 1.5rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease, opacity 0.3s ease;
-  opacity: 0; /* Arrows are hidden by default */
-}
-
-.slider-container:hover .slider-arrow {
-  opacity: 1; /* Show arrows on container hover */
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .slider-arrow:hover {
-  background-color: var(--primary-color);
-}
-
-.slider-arrow.left {
-  left: 10px;
-}
-
-.slider-arrow.right {
-  right: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-color);
 }
 
 /* =================================== */
@@ -395,4 +382,183 @@ body {
 
 .watch-btn .fas {
   margin-right: 8px;
+}
+
+/* Adjust slide to better position the content */
+.banner-slide {
+  display: flex;
+  align-items: center; /* Align content vertically centered */
+  padding: 0 5rem; /* Add more horizontal padding */
+}
+
+.banner-content {
+  z-index: 2; /* Ensure content is above the gradient overlay */
+  max-width: 50%;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.banner-content h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.banner-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.banner-meta .rating {
+  color: #f5c518; /* IMDB yellow */
+}
+
+.banner-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  /* Truncate long descriptions to 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.banner-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Base button style */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+/* Primary "Play Now" button style */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+.btn-primary:hover {
+  background-color: #c40812; /* Darker red */
+  transform: scale(1.05);
+}
+
+/* Secondary "More Info" button style */
+.btn-secondary {
+  background-color: rgba(109, 109, 110, 0.7);
+  color: var(--text-color);
+}
+.btn-secondary:hover {
+  background-color: rgba(109, 109, 110, 0.4);
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments for banner content */
+@media (max-width: 768px) {
+  .banner-slide {
+    padding: 0 2rem;
+  }
+  .banner-content {
+    max-width: 80%;
+  }
+  .banner-content h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* =================================== */
+/* 11. MOVIE CARD STYLES             */
+/* =================================== */
+
+.movie-card {
+  /* Sizing and layout */
+  flex-shrink: 0;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+
+  /* Appearance */
+  background-color: var(--container-bg-color);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+
+  /* Animation */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  z-index: 5; /* Bring card to the front on hover */
+}
+
+.movie-card img {
+  width: 100%;
+  height: 300px; /* Gives all posters a consistent height */
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds "..." if title is too long */
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.card-meta .rating {
+  font-weight: 600;
+  /* This sets the star/rating color to your primary red */
+  color: var(--primary-color);
+}
+
+.card-description {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-color-secondary);
+  
+  /* Truncate long descriptions to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Make sure the cards in the search results are sized correctly too */
+.search-modal .results .movie-card {
+  width: 180px;
+}
+.search-modal .results .movie-card img {
+  height: 270px;
 }
