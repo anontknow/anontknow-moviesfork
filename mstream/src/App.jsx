@@ -7,6 +7,8 @@ import TVShows from './pages/TVShows';
 import Popular from './pages/Popular';
 import Watch from './pages/Watch';
 import About from './pages/About';
+import Robots from './components/Robots';
+import Sitemap from './components/Sitemap';
 import Disclaimer from './pages/Disclaimer';
 import SearchModal from './components/SearchModal';
 import { useTMDB } from './hooks/useTMDB';
@@ -80,6 +82,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
             <Route path="*" element={<Home />} />
+            <Route path="/sitemap.xml" element={<Sitemap />} />
+            <Route path="/robots.txt" element={<Robots />} />
           </Routes>
         </main>
         <Footer />
