@@ -24,6 +24,17 @@ const Popular = () => {
     fetchMovies();
   }, [filters]);
 
+  const buildUrl = (endpoint, params = {}) => {
+    // Always use the proxy/Cloudflare Function approach
+    const url = new URL(`/api${endpoint}`, window.location.origin);
+    Object.keys(params).forEach(key => {
+      if (params[key] !== undefined && params[key] !== null) {
+        url.searchParams.append(key, params[key]);
+      }
+    });
+    return url.toString();
+  };
+
   const fetchMovies = async () => {
     try {
       setLoading(true);
@@ -43,31 +54,6 @@ const Popular = () => {
       console.error("Failed to fetch popular movies:", error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const buildUrl = (endpoint, params = {}) => {
-    const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-    
-    if (import.meta.env.DEV) {
-      // In development, use proxy - API key will be added by proxy
-      const url = new URL(`/api${endpoint}`, window.location.origin);
-      Object.keys(params).forEach(key => {
-        if (params[key] !== undefined && params[key] !== null) {
-          url.searchParams.append(key, params[key]);
-        }
-      });
-      return url.toString();
-    } else {
-      // In production, use direct API with API key
-      const url = new URL(`/api${endpoint}`, 'https://api.themoviedb.org');
-      url.searchParams.append('api_key', TMDB_API_KEY);
-      Object.keys(params).forEach(key => {
-        if (params[key] !== undefined && params[key] !== null) {
-          url.searchParams.append(key, params[key]);
-        }
-      });
-      return url.toString();
     }
   };
 
