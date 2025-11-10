@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "include": [
+    "/api/*"
+  ],
+  "exclude": [
+    "/*.webp",
+    "/*.png",
+    "/*.jpg", 
+    "/*.jpeg",
+    "/*.gif",
+    "/*.ico",
+    "/*.svg",
+    "/*.css",
+    "/*.js",
+    "/*.xml",
+    "/*.txt",
+    "/assets/*",
+    "/img/*",
+    "/icons/*",
+    "/landingpage.webp",
+    "/sitemap.xml",
+    "/robots.txt"
+  ]
+}
