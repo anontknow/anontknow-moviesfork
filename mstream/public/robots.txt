@@ -8,10 +8,11 @@ Allow: /tv-shows
 Allow: /popular
 Allow: /watch
 
-# Allow CSS and JS
-Allow: /src/
-Allow: /assets/
-Allow: /img/
+# Allow Configs
+Allow: /*.xml
+Allow: /*.webp
+Allow: /*.txt
+Allow: /*.json
 
 # Disallow admin or private pages (if any)
 Disallow: /admin/
