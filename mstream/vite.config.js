@@ -33,8 +33,15 @@ export default defineConfig(({ mode }) => {
         }
       })
     ],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./"),
+      },
+    },
     build: {
-      outDir: 'dist'
+      target: "es2022",
+      outDir: "dist",
+      assetsDir: "assets",
     },
     server: {
       proxy: {
