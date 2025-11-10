@@ -79,6 +79,7 @@ function App() {
             <Route path="/watch" element={<Watch />} />
             <Route path="/about" element={<About />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </main>
       </div>
