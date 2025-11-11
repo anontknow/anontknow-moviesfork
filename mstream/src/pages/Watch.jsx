@@ -16,9 +16,10 @@ const Watch = () => {
   const [seasons, setSeasons] = useState([]);
   const [episodes, setEpisodes] = useState([]);
   const [contentInfo, setContentInfo] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { fetchCredits, POSTER_URL } = useTMDB();
+  const { fetchMovieRecommendations, fetchTVRecommendations, POSTER_URL } = useTMDB();
 
   const servers = [
     { 
@@ -32,6 +33,22 @@ const Watch = () => {
     { 
       name: 'Server 3', 
       getUrl: (s, e) => `https://player.videasy.net/${type}/${id}${type === 'tv' ? `/${s}/${e}` : ''}` 
+    },
+    { 
+      name: 'Server 4', 
+      getUrl: (s, e) => `https://www.2embed.cc/embed/${type}/${id}${type === 'tv' ? `/${s}/${e}` : ''}` 
+    },
+    { 
+      name: 'Server 5', 
+      getUrl: (s, e) => `https://vidlink.pro/embed/${type}/${id}${type === 'tv' ? `/${s}/${e}` : ''}` 
+    },
+    { 
+      name: 'Server 6', 
+      getUrl: (s, e) => `https://vidsrc.xyz/embed/${type}/${id}${type === 'tv' ? `/${s}/${e}` : ''}` 
+    },
+    { 
+      name: 'Server 7', 
+      getUrl: (s, e) => `https://vidsrc.cc/v2/embed/${type}/${id}${type === 'tv' ? `/${s}/${e}` : ''}` 
     }
   ];
 
@@ -52,6 +69,9 @@ const Watch = () => {
       const contentData = await contentRes.json();
       setContentInfo(contentData);
 
+      // Fetch recommendations
+      await fetchRecommendations();
+
       if (type === 'tv') {
         await fetchSeasons();
       }
@@ -59,6 +79,21 @@ const Watch = () => {
       console.error('Failed to fetch content data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchRecommendations = async () => {
+    try {
+      let recommendationsData = [];
+      if (type === 'movie') {
+        recommendationsData = await fetchMovieRecommendations(id);
+      } else if (type === 'tv') {
+        recommendationsData = await fetchTVRecommendations(id);
+      }
+      setRecommendations(recommendationsData.slice(0, 10)); // Limit to 10 recommendations
+    } catch (error) {
+      console.error('Failed to fetch recommendations:', error);
+      setRecommendations([]);
     }
   };
 
@@ -96,6 +131,11 @@ const Watch = () => {
 
   const getVideoUrl = () => {
     return servers[currentServer].getUrl(currentSeason, currentEpisode);
+  };
+
+  const handleRecommendationClick = (recType, recId) => {
+    navigate(`/watch?type=${recType}&id=${recId}`);
+    window.location.reload(); // Refresh to load new content
   };
 
   if (loading) {
@@ -147,121 +187,122 @@ const Watch = () => {
       <div className="breadcrumb">
         Home &gt;&gt; {type === 'movie' ? 'Movies' : 'TV Shows'} &gt;&gt; {contentInfo?.title || contentInfo?.name}
       </div>
+      
       <div className="watch-container">
-        <div className="player-section">
-          <div className="video-container">
-            <iframe
-              src={getVideoUrl()}
-              className="video-player"
-              allowFullScreen
-              title="Video Player"
-              key={`${currentServer}-${currentSeason}-${currentEpisode}`}
-            />
-          </div>
-
-          <div className="server-section">
-            <h3 className="section-title">Select Server</h3>
-            <div className="server-grid">
-              {servers.map((server, index) => (
-                <button
-                  key={index}
-                  className={`server-card ${currentServer === index ? 'active' : ''}`}
-                  onClick={() => setCurrentServer(index)}
-                >
-                  <span className="server-name">{server.name}</span>
-                  {currentServer === index && (
-                    <div className="active-indicator"></div>
-                  )}
-                </button>
-              ))}
+        {/* Main Content Area */}
+        <div className="main-content">
+          {/* Video Player Section */}
+          <div className="video-player-section">
+            <div className="video-container">
+              <iframe
+                src={getVideoUrl()}
+                className="video-player"
+                allowFullScreen
+                title="Video Player"
+                key={`${currentServer}-${currentSeason}-${currentEpisode}`}
+              />
             </div>
-          </div>
-        </div>
 
-        <div className="sidebar">
-          {type === 'tv' && (
-            <div className="episode-section">
-              <div className="season-selector">
-                <label className="selector-label">Season</label>
+            {/* Details and Server Section */}
+            <div className="controls-section">
+              <div className="details-section">
+                <h3 className="section-title">Details</h3>
+                <div className="content-overview">
+                  {contentInfo?.overview || 'No overview available.'}
+                </div>
+              </div>
+
+              <div className="server-dropdown-section">
+                <h3 className="section-title">Select Server</h3>
                 <select 
-                  value={currentSeason} 
-                  onChange={(e) => handleSeasonChange(Number(e.target.value))}
-                  className="season-dropdown"
+                  value={currentServer}
+                  onChange={(e) => setCurrentServer(Number(e.target.value))}
+                  className="server-dropdown"
                 >
-                  {seasons.map(season => (
-                    <option key={season.season_number} value={season.season_number}>
-                      {season.name} ({season.episode_count} episodes)
+                  {servers.map((server, index) => (
+                    <option className="serverList" key={index} value={index}>
+                      {server.name}
                     </option>
                   ))}
                 </select>
               </div>
-
-              <div className="episodes-grid">
-                <h4 className="episodes-title">Episodes</h4>
-                <div className="episodes-list">
-                  {episodes.map(episode => (
-                    <button
-                      key={episode.episode_number}
-                      className={`episode-card ${currentEpisode === episode.episode_number ? 'active' : ''}`}
-                      onClick={() => setCurrentEpisode(episode.episode_number)}
-                    >
-                      <div className="episode-number">
-                        E{episode.episode_number}
-                      </div>
-                      <div className="episode-content">
-                        <div className="episode-title">{episode.name}</div>
-                        <div className="episode-meta">
-                          {episode.runtime && (
-                            <span className="episode-runtime">{episode.runtime}m</span>
-                          )}
-                          {episode.air_date && (
-                            <span className="episode-date">
-                              {new Date(episode.air_date).toLocaleDateString()}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
-          )}
+          </div>
 
-          {contentInfo && (
-            <div className="info-section">
-              <h3 className="section-title">About this {type === 'movie' ? 'Movie' : 'Show'}</h3>
-              <div className="content-card">
-                <img 
-                  src={`${POSTER_URL}${contentInfo.poster_path}`} 
-                  alt={contentInfo.title || contentInfo.name}
-                  className="content-poster"
-                />
-                <div className="content-details">
-                  <p className="content-overview">{contentInfo.overview}</p>
-                  <div className="content-stats">
-                    <div className="stat-item">
-                      <span className="stat-icon">⭐</span>
-                      <span className="stat-value">{contentInfo.vote_average?.toFixed(1)}/10</span>
+          {/* Recommendations Sidebar */}
+          <div className="recommendations-sidebar">
+            <h3 className="section-title">Recommendations</h3>
+            <div className="recommendations-list">
+              {recommendations.length > 0 ? (
+                recommendations.map((rec) => (
+                  <div
+                    key={rec.id}
+                    className="recommendation-item"
+                    onClick={() => handleRecommendationClick(rec.media_type || type, rec.id)}
+                  >
+                    <div className="recommendation-title">
+                      {rec.title || rec.name}
                     </div>
-                    <div className="stat-item">
-                      <span className="stat-icon">🗓️</span>
-                      <span className="stat-value">
-                        {contentInfo.release_date?.substring(0, 4) || contentInfo.first_air_date?.substring(0, 4)}
-                      </span>
-                    </div>
-                    {contentInfo.runtime && (
-                      <div className="stat-item">
-                        <span className="stat-icon">⏱️</span>
-                        <span className="stat-value">{contentInfo.runtime}m</span>
-                      </div>
-                    )}
                   </div>
+                ))
+              ) : (
+                <div className="no-recommendations">
+                  <p>No recommendations available</p>
                 </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* TV Show Episodes Section */}
+        {type === 'tv' && (
+          <div className="episode-section">
+            <div className="season-selector">
+              <label className="selector-label">Season</label>
+              <select 
+                value={currentSeason} 
+                onChange={(e) => handleSeasonChange(Number(e.target.value))}
+                className="season-dropdown"
+              >
+                {seasons.map(season => (
+                  <option key={season.season_number} value={season.season_number}>
+                    {season.name} ({season.episode_count} episodes)
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="episodes-grid">
+              <h4 className="episodes-title">Episodes</h4>
+              <div className="episodes-list">
+                {episodes.map(episode => (
+                  <button
+                    key={episode.episode_number}
+                    className={`episode-card ${currentEpisode === episode.episode_number ? 'active' : ''}`}
+                    onClick={() => setCurrentEpisode(episode.episode_number)}
+                  >
+                    <div className="episode-number">
+                      E{episode.episode_number}
+                    </div>
+                    <div className="episode-content">
+                      <div className="episode-title">{episode.name}</div>
+                      <div className="episode-meta">
+                        {episode.runtime && (
+                          <span className="episode-runtime">{episode.runtime}m</span>
+                        )}
+                        {episode.air_date && (
+                          <span className="episode-date">
+                            {new Date(episode.air_date).toLocaleDateString()}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -275,6 +275,41 @@ export const useTMDB = () => {
     }
   };
 
+  // Add recommendation functions
+  const fetchMovieRecommendations = async (movieId) => {
+    try {
+      const url = buildUrl(`/movie/${movieId}/recommendations`);
+      const res = await fetch(url);
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      return data.results || [];
+    } catch (error) {
+      console.error("Failed to fetch movie recommendations:", error);
+      throw error;
+    }
+  };
+
+  const fetchTVRecommendations = async (tvId) => {
+    try {
+      const url = buildUrl(`/tv/${tvId}/recommendations`);
+      const res = await fetch(url);
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      return data.results || [];
+    } catch (error) {
+      console.error("Failed to fetch TV recommendations:", error);
+      throw error;
+    }
+  };
+
   return {
     movieGenres,
     tvGenres,
@@ -288,6 +323,8 @@ export const useTMDB = () => {
     fetchTVDetails,
     fetchDiscoverMovies,
     fetchDiscoverTV,
+    fetchMovieRecommendations,
+    fetchTVRecommendations,
     POSTER_URL,
     BACKDROP_URL
   };
