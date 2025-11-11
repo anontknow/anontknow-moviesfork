@@ -4,6 +4,7 @@ import MovieRow from '../components/MovieRow';
 import Modal from '../components/Modal';
 import SearchModal from '../components/SearchModal';
 import { useTMDB } from '../hooks/useTMDB';
+import './Home.css';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -14,6 +15,7 @@ const Home = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [timeWindow, setTimeWindow] = useState('week');
 
   const { 
     movieGenres, 
@@ -24,16 +26,24 @@ const Home = () => {
     fetchCredits 
   } = useTMDB();
 
+  // Initial data load
   useEffect(() => {
     initializeData();
-  }, []);
+  }, []); // Only run once on mount
+
+  // Update only trending data when timeWindow changes (without full reload)
+  useEffect(() => {
+    if (!loading) {
+      updateTrendingData();
+    }
+  }, [timeWindow]); // Only update trending data when timeWindow changes
 
   const initializeData = async () => {
     try {
       setLoading(true);
       const [movies, tvShows, anime] = await Promise.all([
-        fetchTrending('movie'),
-        fetchTrending('tv'),
+        fetchTrending('movie', timeWindow),
+        fetchTrending('tv', timeWindow),
         fetchTrendingAnime()
       ]);
 
@@ -45,6 +55,27 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const updateTrendingData = async () => {
+    try {
+      // Only update movies and TV shows, keep anime the same
+      const [movies, tvShows] = await Promise.all([
+        fetchTrending('movie', timeWindow),
+        fetchTrending('tv', timeWindow)
+      ]);
+
+      setTrendingMovies(movies);
+      setTrendingTV(tvShows);
+      // Note: We don't update trendingAnime here to avoid unnecessary re-fetch
+    } catch (error) {
+      console.error("Failed to update trending data:", error);
+    }
+  };
+
+  const handleTimeWindowToggle = () => {
+    setTimeWindow(prev => prev === 'week' ? 'day' : 'week');
+    // No need to call initializeData here - the useEffect will handle it
   };
 
   const handleSearch = async (query) => {
@@ -100,6 +131,18 @@ const Home = () => {
 
   return (
     <div className="home-page">
+      {/* DEBUG: Add this temporary element to check if component is rendering */}
+      <div style={{
+        background: 'red', 
+        color: 'white', 
+        padding: '10px', 
+        textAlign: 'center',
+        fontSize: '16px',
+        fontWeight: 'bold'
+      }}>
+        DEBUG: Home Component is Rendering
+      </div>
+
       {/* Banner Slider - Only show if we have movies */}
       {trendingMovies.length > 0 && (
         <BannerSlider 
@@ -107,12 +150,31 @@ const Home = () => {
           onItemClick={handleItemClick}
         />
       )}
+      
+      {/* Time Window Toggle - Fixed version */}
+      <div className="time-window-toggle-container">
+        <div className="time-window-toggle">
+          <span className={`toggle-label ${timeWindow === 'week' ? 'active' : ''}`}>
+            This Week
+          </span>
+          <button 
+            className={`toggle-switch ${timeWindow === 'day' ? 'day' : 'week'}`}
+            onClick={handleTimeWindowToggle}
+            aria-label={`Switch to ${timeWindow === 'week' ? 'today' : 'this week'} trending`}
+          >
+            <div className="toggle-slider"></div>
+          </button>
+          <span className={`toggle-label ${timeWindow === 'day' ? 'active' : ''}`}>
+            Today
+          </span>
+        </div>
+      </div>
 
       {/* Content Rows - Only show if we have content */}
       <div className="content-rows">
         {trendingMovies.length > 0 && (
           <MovieRow 
-            title="Trending Movies" 
+            title={`Trending Movies ${timeWindow === 'day' ? 'Today' : 'This Week'}`} 
             items={trendingMovies} 
             onItemClick={handleItemClick}
           />
@@ -120,7 +182,7 @@ const Home = () => {
         
         {trendingTV.length > 0 && (
           <MovieRow 
-            title="Trending TV Shows" 
+            title={`Trending TV Shows ${timeWindow === 'day' ? 'Today' : 'This Week'}`} 
             items={trendingTV} 
             onItemClick={handleItemClick}
           />

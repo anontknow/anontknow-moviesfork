@@ -78,9 +78,9 @@ export const useTMDB = () => {
     }
   };
 
-  const fetchTrending = async (type) => {
+  const fetchTrending = async (type, timeWindow = 'week') => {
     try {
-      const url = buildUrl(`/trending/${type}/week`);
+      const url = buildUrl(`/trending/${type}/${timeWindow}`);
       console.log('Fetching from:', url); // Debug log
       
       const res = await fetch(url);

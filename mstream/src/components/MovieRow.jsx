@@ -2,8 +2,14 @@ import React from 'react';
 import MovieCard from './MovieCard';
 
 const MovieRow = ({ title, items, onItemClick }) => {
-  // Limit to 24 items for 6x4 grid
-  const displayItems = items.filter(item => item.poster_path).slice(0, 24);
+  // Show up to 24 items, but don't filter out items without posters
+  // Let MovieCard handle missing posters gracefully
+  const displayItems = items.slice(0, 24);
+
+  // If no items to display, don't render the row
+  if (displayItems.length === 0) {
+    return null;
+  }
 
   return (
     <div className="row">
