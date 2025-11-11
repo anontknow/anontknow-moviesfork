@@ -19,32 +19,18 @@ export const useTMDB = () => {
   }, []);
 
   const buildUrl = (endpoint, params = {}) => {
-    const baseUrl = getApiBaseUrl();
+    const baseUrl = getApiBaseUrl(); // returns '/api'
     
-    // Use relative URL construction
+    // Always use simple relative URL construction
     const url = new URL(`${baseUrl}${endpoint}`, window.location.origin);
     
-    // For production, ensure we're using the correct base
-    if (window.location.hostname === 'mstream.pages.dev') {
-      // Remove the origin and use relative path for Cloudflare Pages
-      const searchParams = new URLSearchParams();
-      Object.keys(params).forEach(key => {
-        if (params[key] !== undefined && params[key] !== null) {
-          searchParams.append(key, params[key]);
-        }
-      });
-      
-      const queryString = searchParams.toString();
-      return `${baseUrl}${endpoint}${queryString ? `?${queryString}` : ''}`;
-    } else {
-      // Development - use the original approach
-      Object.keys(params).forEach(key => {
-        if (params[key] !== undefined && params[key] !== null) {
-          url.searchParams.append(key, params[key]);
-        }
-      });
-      return url.toString();
-    }
+    Object.keys(params).forEach(key => {
+      if (params[key] !== undefined && params[key] !== null) {
+        url.searchParams.append(key, params[key]);
+      }
+    });
+    
+    return url.toString();
   };
 
   const checkApiStatus = async () => {
