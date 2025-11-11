@@ -171,7 +171,6 @@ const Watch = () => {
                   className={`server-card ${currentServer === index ? 'active' : ''}`}
                   onClick={() => setCurrentServer(index)}
                 >
-                  <div className="server-icon">📺</div>
                   <span className="server-name">{server.name}</span>
                   {currentServer === index && (
                     <div className="active-indicator"></div>

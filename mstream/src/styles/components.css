@@ -1017,7 +1017,7 @@
   color: var(--netflix-white);
   margin: 0;
   font-size: 1.5rem;
-  background: linear-gradient(45deg, #fff, #e50914);
+  background: #e50914;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
