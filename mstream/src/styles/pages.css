@@ -3,6 +3,7 @@
   height: 80vh;
   overflow: hidden;
   background: var(--netflix-gradient);
+  margin-top: 4rem;
 }
 
 @media (max-width: 768px) {
@@ -47,6 +48,7 @@
   max-width: 600px;
   z-index: 2;
   position: relative;
+  margin-left: 3rem;
 }
 
 @media (max-width: 768px) {
@@ -55,11 +57,12 @@
     max-width: 400px;
     z-index: 2;
     position: relative;
+    margin-left: 0.2rem;
   }
 }
 
 .banner-title {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
   background: #fff;
@@ -166,10 +169,8 @@
 }
 
 .grid-container {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 15px 1fr 15px 1fr 15px 1fr 15px 1fr 15px 1fr;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 15px;
   padding: 10px 5px;
 }
