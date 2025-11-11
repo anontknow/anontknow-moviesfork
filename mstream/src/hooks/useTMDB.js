@@ -123,7 +123,11 @@ export const useTMDB = () => {
     if (!query.trim()) return [];
 
     try {
-      const url = buildUrl('/search/multi', { query });
+      const url = buildUrl('/search/multi', { 
+        query: query.trim(),
+        include_adult: false,
+        language: 'en-US'
+      });
       console.log('Search URL:', url);
 
       const res = await fetch(url);
@@ -134,10 +138,16 @@ export const useTMDB = () => {
       }
 
       const data = await res.json();
-      // Filter out people and items without posters
-      return data.results?.filter(item =>
-        item.media_type !== 'person' && item.poster_path
-      ) || [];
+      console.log('Search results:', data); // Debug log
+      
+      // More lenient filtering - allow items without posters
+      return data.results?.filter(item => {
+        // Exclude people
+        if (item.media_type === 'person') return false;
+        
+        // Include movies and TV shows even without posters
+        return (item.media_type === 'movie' || item.media_type === 'tv');
+      }) || [];
     } catch (error) {
       console.error("Search failed:", error);
       throw error;
