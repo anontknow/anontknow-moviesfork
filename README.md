@@ -9,7 +9,7 @@
 </p>
 </p>
 <p align="center">
-    <a href="https://mstream.pages.dev/">MSTREAM</a> is an open-source movies and tv shows streaming service that uses <a href="https://www.themoviedb.org/">TheMovieDatabase</a> API, built using ReactJS with javascript and CSS and can be deployed in Cloudflare (as Pages). It lets you easily find any movie with intuitive search, and suggestion feature.
+    <a href="https://mstream.pages.dev/">MSTREAM</a> is an open-source movies and tv shows streaming service that uses <a href="https://www.themoviedb.org/">TheMovieDatabase</a> API, built using ReactJS with javascript and CSS and can be deployed in Cloudflare (as Pages). It lets you easily find any movie with intuitive search, and suggestion feature. Note that the website itself does not have ads anymore, but video source (iframe-based) has embeded ads---please use ad-blocking extension or use Brave browsers.
     <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/landingpage.webp"/>
  </p>
 
@@ -26,8 +26,9 @@
 ### Watch Page
 
 - Side information panel
-- 3 third-party source for video playing
+- Added 7 third-party source for video playing
 - Available Episodes/Seasons for TV Shows
+- Added recommendation area
 
 </details>
 
