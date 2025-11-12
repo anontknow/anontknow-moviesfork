@@ -74,7 +74,7 @@ const About = () => {
               Have questions, suggestions, or feedback? We'd love to hear from you!
             </p>
             <div className="contact-info">
-              <p>🐙 GitHub: <a href="https://github.com/cd-Crypton/mstream" target="_blank" rel="noopener noreferrer">github.com/mstream</a></p>
+              <p>🐙 GitHub: <a href="https://github.com/cd-Crypton/mstream" target="_blank" rel="noopener noreferrer">github.com/cd-Crypton/mstream</a></p>
             </div>
           </section>
         </div>
