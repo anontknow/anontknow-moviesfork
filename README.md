@@ -10,7 +10,7 @@
 </p>
 <p align="center">
     <a href="https://mstream.pages.dev/">MSTREAM</a> is an open-source movies and tv shows streaming service that uses <a href="https://www.themoviedb.org/">TheMovieDatabase</a> API, built using ReactJS with javascript and CSS and can be deployed in Cloudflare (as Pages). It lets you easily find any movie with intuitive search, and suggestion feature. Note that the website itself does not have ads anymore, but video source (iframe-based) has embeded ads---please use ad-blocking extension or use Brave browsers.
-    <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/landingpage.webp"/>
+    <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/landingpage.webp"/>
  </p>
 
 <details>
@@ -30,6 +30,15 @@
 - Available Episodes/Seasons for TV Shows
 - Added recommendation area
 
+### Other Images
+<img alt="Trending Today" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/trendingToday.webp"/>
+<img alt="Trending This Week" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/trendingWeek.webp"/>
+<img alt="Movies" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/movieswithFilter.webp"/>
+<img alt="TV Shows" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/tvShowswithFilter.webp"/>
+<img alt="Popular" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/popularwithFilter.webp"/>
+
+### Scripts
+If you want to convert your images into WebP format, read ![scripts/README.md](https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/scripts/README.md) and use ![webp_converter.py](https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/scripts/webp_converter.py). Only if you don't want to open new tab in a browser, convert online.
 </details>
 
 ## Local Development
