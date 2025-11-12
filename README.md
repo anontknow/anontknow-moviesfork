@@ -1,7 +1,7 @@
 <p align="center">
   <div align="center">
     <a href="https://mstream.pages.dev/">
-      <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/mstream-new.png" width="220"/>
+      <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/logo/mstream-new.png" width="220"/>
     </a>
   </div>
     <h3 align="center">MSTREAM - Stream Movies & TV Shows</h3>
