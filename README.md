@@ -1,7 +1,7 @@
 <p align="center">
   <div align="center">
     <a href="https://mstream.pages.dev/">
-      <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/logo/mstream-new.png" width="220"/>
+      <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/public/logo/mstream-new.png" width="220"/>
     </a>
   </div>
     <h3 align="center">MSTREAM - Stream Movies & TV Shows</h3>
@@ -10,7 +10,7 @@
 </p>
 <p align="center">
     <a href="https://mstream.pages.dev/">MSTREAM</a> is an open-source movies and tv shows streaming service that uses <a href="https://www.themoviedb.org/">TheMovieDatabase</a> API, built using ReactJS and CSS, and can be deployed in Cloudflare (as Pages). It lets you easily find any movie with intuitive search, and suggestion feature. Note that the website itself does not have ads anymore, but video source (iframe-based) has embeded ads---please use ad-blocking extension or use Brave browsers.
-    <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/landingpage.webp"/>
+    <img alt="MSTREAM" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/public/img/landingpage.webp"/>
  </p>
 
 <details>
@@ -31,11 +31,11 @@
 - Added recommendation area
 
 ### Other Images
-<img alt="Trending Today" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/trendingToday.webp"/>
-<img alt="Trending This Week" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/trendingWeek.webp"/>
-<img alt="Movies" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/movieswithFilter.webp"/>
-<img alt="TV Shows" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/tvShowswithFilter.webp"/>
-<img alt="Popular" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/mstream/public/img/popularwithFilter.webp"/>
+<img alt="Trending Today" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/public/img/trendingToday.webp"/>
+<img alt="Trending This Week" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/public/img/trendingWeek.webp"/>
+<img alt="Movies" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/public/img/movieswithFilter.webp"/>
+<img alt="TV Shows" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/public/img/tvShowswithFilter.webp"/>
+<img alt="Popular" src="https://raw.githubusercontent.com/cd-Crypton/mstream/refs/heads/main/public/img/popularwithFilter.webp"/>
 
 ### Scripts
 If you want to convert your images into WebP format, read [scripts/README.md](https://github.com/cd-Crypton/mstream/tree/main/scripts/README.md) and use [webp_converter.py](https://github.com/cd-Crypton/mstream/tree/main/scripts/webp_converter.py). Only if you don't want to open new tab in a browser, convert online.
@@ -53,7 +53,7 @@ cd mstream/mstream
 npm install
 ```
 
-### 3. Refer the <a href="https://github.com/cd-Crypton/mstream/blob/main/mstream/.env.example">.env.example</a> to set your own .env file.
+### 3. Refer the <a href="https://github.com/cd-Crypton/mstream/blob/main/.env.example">.env.example</a> to set your own .env file.
 
 ## Start the server
 
@@ -74,7 +74,7 @@ Host your own instance of <a href="https://mstream.pages.dev/">MSTREAM</a> on Cl
 - Build Command: `npm run build`
 - Build Output Directory: `dist`
 - Root Directory: `mstream`
-- After successful deployment, go to Settings >> Variables and Secrets >> Then the following details in <a href="https://github.com/cd-Crypton/mstream/blob/main/mstream/.env.example">.env.example</a>
+- After successful deployment, go to Settings >> Variables and Secrets >> Then the following details in <a href="https://github.com/cd-Crypton/mstream/blob/main/.env.example">.env.example</a>
 
 ### Pull Requests
 
