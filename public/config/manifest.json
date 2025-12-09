@@ -50,13 +50,13 @@
 "screenshots": [
     {
         "src": "/img/landingpage.webp",
-        "sizes": "1358x576",
+        "sizes": "1600x805",
         "type": "image/png",
         "form_factor": "wide",
         "description": "A screenshot of the home page - web"
     },
     {
-        "src": "/img/landingpage-mobile.png",
+        "src": "/img/landingpage-mobile.web",
         "sizes": "390x760",
         "type": "image/png",
         "form_factor": "narrow",
