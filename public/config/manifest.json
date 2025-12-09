@@ -56,7 +56,7 @@
         "description": "A screenshot of the home page - web"
     },
     {
-        "src": "/img/landingpage-mobile.web",
+        "src": "/img/landingpage-mobile.webp",
         "sizes": "390x760",
         "type": "image/png",
         "form_factor": "narrow",
