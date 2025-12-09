@@ -1,12 +1,45 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from "path"
 import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa';
+import Sitemap from 'vite-plugin-sitemap'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        workbox: {
+          globPatterns: [
+            '**/*.{js,jsx,css,html,ico,png,jpg,jpeg,webp,svg,woff,woff2,ttf,eot,xml,txt}']
+        }
+      }),
+      Sitemap({ 
+        hostname: 'https://mstream.pages.dev/',
+        dynamicRoutes: [
+          '/home',
+          '/movies',
+          '/tv-shows',
+          '/popular',
+          '/watch?type=movie&amp;id=1062722',
+          '/watch?type=movie&amp;id=1197137',
+          '/watch?type=movie&amp;id=1114967',
+          '/watch?type=movie&amp;id=1571470',
+          '/watch?type=movie&amp;id=617126'
+        ],
+        readable: true,
+        robots: [
+          {
+            userAgent: '*',
+            allow: '/',
+            disallow: '/api/',
+            crawlDelay: 2,
+          },
+        ]
+      }),
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./"),
