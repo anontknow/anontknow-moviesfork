@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Movies from './pages/Movies';
@@ -15,6 +15,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const { searchTMDB } = useTMDB();
+  const navigate = useNavigate();
 
   const handleSearch = async (query) => {
     if (!query.trim()) {
@@ -36,18 +37,21 @@ function App() {
   };
 
   const handleItemClick = (item) => {
-    // Handle item click - you might want to navigate to detail page or show modal
-    console.log('Item clicked:', item);
-    setSearchResults([]); // Clear search results when item is clicked
+    // Navigate to watch page with item details
+    if (item && item.id && (item.media_type || item.type)) {
+      const type = item.media_type || item.type;
+      navigate(`/watch?type=${type}&id=${item.id}`);
+      setSearchResults([]); // Clear search results when item is clicked
+    }
   };
 
   return (
       <div className="App">
         <Navbar
-          onSearch={handleSearch} // Changed from onSearchClick to onSearch
+          onSearch={handleSearch}
           searchResults={searchResults}
           onItemClick={handleItemClick}
-          isSearching={isSearching} // Added this prop
+          isSearching={isSearching}
         />
         
         <main>
