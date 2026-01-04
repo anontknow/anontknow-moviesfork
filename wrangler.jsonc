@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "mstream",
+	"name": "anontknow-moviesfork",
 	"compatibility_date": "2025-11-01",
 	"pages_build_output_dir": "./dist",
 	"observability": {
