@@ -50,6 +50,10 @@ const Watch = () => {
       name: 'Server 7', 
       getUrl: (s, e) => `https://vidsrc.cc/v2/embed/${type}/${id}${type === 'tv' ? `/${s}/${e}` : ''}` 
     }
+    { 
+      name: 'Server 8', 
+      getUrl: (s, e) => `https://vidsrc-embed.ru/embed/${type}/${id}${type === 'tv' ? `/${s}/${e}` : ''}` 
+    }
   ];
 
   useEffect(() => {
